@@ -81,6 +81,8 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # 2. If valid DATABASE_URL exists, use it.
 # 3. Else, use SQLite.
 
+import dj_database_url
+
 # Construct a manual URL only if explicit MySQL vars are set (Optional, for your local workflow)
 manual_db_url = None
 if os.getenv('DB_NAME') and os.getenv('DB_USER'):
