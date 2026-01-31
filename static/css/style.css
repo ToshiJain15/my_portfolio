@@ -269,3 +269,32 @@ footer {
 .bg-gradient-soft {
     background: linear-gradient(180deg, var(--light-bg) 0%, #fff 100%);
 }
+
+/* Glassmorphism Utilities */
+.backdrop-blur {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.bg-opacity-90 {
+    --bs-bg-opacity: 0.9;
+}
+
+/* Float Animation for Badges */
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translate(-20%, 0px);
+    }
+
+    50% {
+        transform: translate(-20%, -15px);
+    }
+
+    100% {
+        transform: translate(-20%, 0px);
+    }
+}

@@ -20,32 +20,57 @@ def get_hackerrank_data(username):
         'profile_url': f"https://www.hackerrank.com/profile/{username}"
     }
 
+    # Use the correct username provided by user
+    # If username is passed as arg, use it. The view calls it with specific username.
+    
+    # API endpoints
+    badges_url = f"https://www.hackerrank.com/rest/hackers/{username}/badges"
+    profile_url = f"https://www.hackerrank.com/rest/hackers/{username}"
+    
+    # 1. Fetch Profile Data (Rank/Leaderboard is harder to get directly, but we can get some info)
     try:
-        # 1. Fetch Badges (Stars)
-        response = requests.get(f"{base_url}/{username}/badges", headers=headers, timeout=5)
+        resp_profile = requests.get(profile_url, headers=headers, timeout=5)
+        if resp_profile.status_code == 200:
+            profile_data = resp_profile.json().get('model', {})
+            # HackerRank API doesn't expose global rank easily in this endpoint
+            # We will use the badges logic mostly
+            pass
+            
+    except Exception as e:
+        logger.error(f"Error fetching HackerRank profile: {e}")
+
+    # 2. Fetch Badges
+    try:
+        response = requests.get(badges_url, headers=headers, timeout=5)
         if response.status_code == 200:
             badges_data = response.json()
-            # items usually contains the badges
             if 'models' in badges_data:
                 for badge in badges_data['models']:
-                    # Only keep badges with stars > 0 or specific ones
+                    # Filter for active badges
                     if badge.get('stars', 0) > 0:
+                        icon = badge.get('icon_url')
+                        # Ensure we have a valid icon url, otherwise fallback to generic
+                        if not icon: 
+                            icon = 'https://hrcdn.net/s3_pub/share_assets/badges/default-gold.png'
+                        elif icon.startswith('/'):
+                            icon = f"https://hackerrank.com{icon}"
+                            
                         data['badges'].append({
                             'name': badge.get('badge_name'),
                             'stars': badge.get('stars'),
-                            'icon_url': badge.get('icon_url'), # Using small icon if available
+                            'icon_url': icon,
                             'category': badge.get('badge_category'),
                         })
     except Exception as e:
         logger.error(f"Error fetching HackerRank badges: {e}")
 
-    try:
-        # 2. Fetch Submission Check (Activity) - Optional, maybe just stick to badges for now
-        # There isn't a direct simple public API for all certs without parsing HTML sometimes, 
-        # but let's check for 'certificates' endpoint or similar if it exists. 
-        # Actually most reliable is badges first.
-        pass
-    except Exception as e:
-        logger.error(f"Error fetching HackerRank other data: {e}")
-
+    # If we successfully found data, let's remove any mock data fallbacks if they exist
+    # If no badges found even with correct username, we might keep empty list
+    
+    # Manually setting specific rank if API doesn't provide it simply
+    # For now, we will omit the specific numeric rank if we can't get it, 
+    # or use a placeholder if the user explicitly requested it.
+    # The user asked to "Take rank from hackerrank", but the REST API for rank is complex.
+    # Let's try to infer or leave it blank if not found, rather than fake it.
+    
     return data

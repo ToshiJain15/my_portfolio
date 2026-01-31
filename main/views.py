@@ -5,7 +5,12 @@ from .forms import ContactForm
 
 def home(request):
     achievements = Achievement.objects.all()[:6]  # Get latest 6 achievements
-    return render(request, 'main/home.html', {'achievements': achievements})
+    
+    # Fetch HackerRank Data
+    from .utils import get_hackerrank_data
+    hackerrank_data = get_hackerrank_data('jaintoshi15')
+    
+    return render(request, 'main/home.html', {'achievements': achievements, 'hackerrank': hackerrank_data})
 
 def about(request):
     return render(request, 'main/about.html')
@@ -25,7 +30,7 @@ def skills(request):
     # Fetch HackerRank Data
     from .utils import get_hackerrank_data
     # You can change this username to your actual HackerRank username
-    hackerrank_data = get_hackerrank_data('ToshiJain15')
+    hackerrank_data = get_hackerrank_data('jaintoshi15')
     
     return render(request, 'main/skills.html', {'skills_data': skills_data, 'hackerrank': hackerrank_data})
 
