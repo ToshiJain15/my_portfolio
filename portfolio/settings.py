@@ -92,7 +92,7 @@ if os.getenv('DB_NAME') and os.getenv('DB_USER'):
 # dj_database_url handles parsing. If default is None or invalid, it might fail, 
 # so we ensure a safe valid fallback if nothing is configured.
 
-default_db = manual_db_url if manual_db_url else 'sqlite:///db.sqlite3'
+default_db = manual_db_url if manual_db_url else 'sqlite:///' + str(BASE_DIR / 'db.sqlite3')
 
 DATABASES = {
     'default': dj_database_url.config(
