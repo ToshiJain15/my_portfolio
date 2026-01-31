@@ -76,24 +76,28 @@ TEMPLATES = [
 WSGI_APPLICATION = 'portfolio.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+# Database logic:
+# 1. Prefer DATABASE_URL for production (Render/Heroku compatible)
+# 2. If valid DATABASE_URL exists, use it.
+# 3. Else, use SQLite.
 
-import dj_database_url
+# Construct a manual URL only if explicit MySQL vars are set (Optional, for your local workflow)
+manual_db_url = None
+if os.getenv('DB_NAME') and os.getenv('DB_USER'):
+    manual_db_url = f"mysql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD', '')}@{os.getenv('DB_HOST', 'localhost')}:{os.getenv('DB_PORT', '3306')}/{os.getenv('DB_NAME')}"
+
+# Use 'default' argument to fall back to manual_db_url or sqlite URL
+# dj_database_url handles parsing. If default is None or invalid, it might fail, 
+# so we ensure a safe valid fallback if nothing is configured.
+
+default_db = manual_db_url if manual_db_url else 'sqlite:///db.sqlite3'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=f"mysql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}",
+        default=default_db,
         conn_max_age=600
     )
 }
-
-# If no MySQL config found in env, fall back to SQLite for easy development/deploy without DB yet
-if not os.getenv('DB_NAME') and not os.getenv('DATABASE_URL'):
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
 
 
 # Password validation
