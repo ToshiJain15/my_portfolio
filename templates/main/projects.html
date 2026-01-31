@@ -26,7 +26,7 @@
                     <div class="position-relative overflow-hidden">
                          {% if project.video %}
                         <div class="ratio ratio-4x3 bg-light">
-                             <video src="{{ project.video.url }}" class="object-fit-cover w-100 h-100" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>
+                             <video src="{{ project.video.url }}" class="object-fit-cover w-100 h-100" muted loop autoplay playsinline></video>
                         </div>
                         {% elif project.image %}
                         <img src="{{ project.image.url }}" class="card-img-top transition-scale" alt="{{ project.title }}" style="height: 240px; object-fit: cover;">
