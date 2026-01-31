@@ -48,17 +48,31 @@ def get_hackerrank_data(username):
                 for badge in badges_data['models']:
                     # Filter for active badges
                     if badge.get('stars', 0) > 0:
-                        icon = badge.get('icon_url')
-                        # Ensure we have a valid icon url, otherwise fallback to generic
-                        if not icon: 
-                            icon = 'https://hrcdn.net/s3_pub/share_assets/badges/default-gold.png'
-                        elif icon.startswith('/'):
-                            icon = f"https://hackerrank.com{icon}"
+                        # Map to FontAwesome Icons instead of broken URLs
+                        badge_name_lower = badge.get('badge_name', '').lower()
+                        icon_class = 'fas fa-medal' # Default
+                        
+                        if 'problem solving' in badge_name_lower:
+                            icon_class = 'fas fa-brain'
+                        elif 'python' in badge_name_lower:
+                            icon_class = 'fab fa-python'
+                        elif 'java' in badge_name_lower and 'script' not in badge_name_lower:
+                            icon_class = 'fab fa-java'
+                        elif 'c++' in badge_name_lower:
+                            icon_class = 'fas fa-code'
+                        elif 'sql' in badge_name_lower:
+                            icon_class = 'fas fa-database'
+                        elif 'days of code' in badge_name_lower:
+                            icon_class = 'fas fa-calendar-check'
+                        elif 'days of js' in badge_name_lower or 'javascript' in badge_name_lower:
+                            icon_class = 'fab fa-js'
+                        elif 'c' == badge_name_lower:
+                            icon_class = 'fas fa-c' # FontAwesome 6 has fa-c usually, or fall back to code
                             
                         data['badges'].append({
                             'name': badge.get('badge_name'),
                             'stars': badge.get('stars'),
-                            'icon_url': icon,
+                            'icon_class': icon_class,
                             'category': badge.get('badge_category'),
                         })
     except Exception as e:
