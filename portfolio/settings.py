@@ -76,30 +76,29 @@ TEMPLATES = [
 WSGI_APPLICATION = 'portfolio.wsgi.application'
 
 
-# Database logic:
-# 1. Prefer DATABASE_URL for production (Render/Heroku compatible)
-# 2. If valid DATABASE_URL exists, use it.
-# 3. Else, use SQLite.
+# Database Configuration
+# 1. Try to use DATABASE_URL from environment (Best for Render/Production)
+# 2. If not found, fall back to local SQLite file
 
 import dj_database_url
 
-# Construct a manual URL only if explicit MySQL vars are set (Optional, for your local workflow)
-manual_db_url = None
-if os.getenv('DB_NAME') and os.getenv('DB_USER'):
-    manual_db_url = f"mysql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD', '')}@{os.getenv('DB_HOST', 'localhost')}:{os.getenv('DB_PORT', '3306')}/{os.getenv('DB_NAME')}"
+database_url = os.getenv('DATABASE_URL')
+# Optional: Manual MySQL overrides if you use them
+if not database_url and os.getenv('DB_NAME'):
+     database_url = f"mysql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD', '')}@{os.getenv('DB_HOST', 'localhost')}:{os.getenv('DB_PORT', '3306')}/{os.getenv('DB_NAME')}"
 
-# Use 'default' argument to fall back to manual_db_url or sqlite URL
-# dj_database_url handles parsing. If default is None or invalid, it might fail, 
-# so we ensure a safe valid fallback if nothing is configured.
-
-default_db = manual_db_url if manual_db_url else 'sqlite:///' + str(BASE_DIR / 'db.sqlite3')
-
-DATABASES = {
-    'default': dj_database_url.config(
-        default=default_db,
-        conn_max_age=600
-    )
-}
+if database_url:
+    DATABASES = {
+        'default': dj_database_url.config(default=database_url, conn_max_age=600)
+    }
+else:
+    # Reliable SQLite fallback using standard Django config (Avoiding URL parsing issues)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
