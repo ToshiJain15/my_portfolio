@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Achievements - My Portfolio{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-gradient-soft position-relative" style="min-height: 80vh; padding-top: 100px !important;">
+    <div class="container py-5">
+        <div class="text-center mb-5 reveal">
+            <span class="badge bg-primary bg-opacity-10 text-primary mb-2 px-3 py-2 rounded-pill text-uppercase fw-bold ls-wider">Portfolio</span>
+            <h1 class="display-4 fw-bold">All <span class="text-gradient">Achievements</span></h1>
+            <p class="lead text-secondary mt-3">A collection of my certifications, awards, and technical milestones.</p>
+        </div>
+
+        <div class="row g-4">
+            {% for item in achievements %}
+            <div class="col-md-6 col-lg-4 reveal delay-100">
+                {% with title=item.title|lower %}
+                <div class="card h-100 {% if 'ugc net' in title or 'gate' in title %}border-2 border-warning shadow-lg transform-scale-sm{% else %}border-0 shadow-sm{% endif %} hover-card rounded-5 overflow-hidden group">
+                {% endwith %}
+                    <!-- Media Area -->
+                    <div class="position-relative bg-light overflow-hidden" style="padding-top: 75%;"> <!-- 4:3 Aspect Ratio -->
+                        {% if item.is_video and item.video %}
+                             <video controls class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover">
+                                 <source src="{{ item.video.url }}" type="video/mp4">
+                                 Your browser does not support the video tag.
+                             </video>
+                        {% elif item.file %}
+                             {% with ext5=item.file.url|slice:"-5:"|lower ext4=item.file.url|slice:"-4:"|lower %}
+                                 {% if ext4 == '.pdf' %}
+                                     <!-- PDF Canvas Renderer -->
+                                     <div class="position-absolute top-0 start-0 w-100 h-100 bg-light d-flex align-items-center justify-content-center">
+                                         <canvas data-pdf-url="{{ item.file.url }}" class="pdf-thumbnail w-100 h-100 object-fit-contain"></canvas>
+                                         <!-- Loading Spinner -->
+                                         <div class="position-absolute top-50 start-50 translate-middle text-secondary pdf-loading">
+                                             <div class="spinner-border spinner-border-sm" role="status"></div>
+                                         </div>
+                                         <!-- Transparent overlay to capture click -->
+                                         <a href="{{ item.file.url }}" target="_blank" class="position-absolute top-0 start-0 w-100 h-100 z-2 stretched-link" aria-label="View {{ item.title }}"></a>
+                                     </div>
+                                 {% elif ext5 == '.html' %}
+                                     <!-- HTML Embed -->
+                                     <div class="position-absolute top-0 start-0 w-100 h-100 bg-white">
+                                         <iframe src="{{ item.file.url }}" class="w-100 h-100 border-0" style="pointer-events: none; transform: scale(0.25); transform-origin: 0 0; width: 400%; height: 400%;" scrolling="no"></iframe>
+                                         <a href="{{ item.file.url }}" target="_blank" class="position-absolute top-0 start-0 w-100 h-100 z-2 stretched-link" aria-label="View {{ item.title }}"></a>
+                                     </div>
+                                 {% else %}
+                                     <!-- Assuming Image -->
+                                     <img src="{{ item.file.url }}" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover transition-transform group-hover-scale" alt="{{ item.title }}">
+                                 {% endif %}
+                             {% endwith %}
+                        {% else %}
+                             <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center text-secondary bg-light">
+                                 <i class="fas fa-certificate fa-3x opacity-25"></i>
+                             </div>
+                        {% endif %}
+                        
+                        <!-- Badge for Type -->
+                        <div class="position-absolute top-0 start-0 m-3 pointer-events-none z-3">
+                            <span class="badge bg-white text-dark shadow-sm rounded-pill fw-bold text-uppercase small px-3 py-2">
+                                {% if 'UGC NET' in item.title or 'GATE' in item.title %}
+                                    <i class="fas fa-star me-1 text-warning"></i> Top Achievement
+                                {% elif item.is_video %}
+                                    <i class="fas fa-video me-1 text-danger"></i> Demo
+                                {% else %}
+                                    <i class="fas fa-award me-1 text-warning"></i> Certificate
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body p-4 d-flex flex-column">
+                        <h5 class="fw-bold mb-2 text-truncate" title="{{ item.title }}">{{ item.title }}</h5>
+                        <p class="card-text text-secondary small flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                            {{ item.description }}
+                        </p>
+                        <div class="mt-3 pt-3 border-top border-light text-muted small d-flex justify-content-between">
+                            <span><i class="far fa-calendar-alt me-2"></i> {{ item.created_at|date:"M Y" }}</span>
+                            {% if item.file and '.pdf' in item.file.url|lower %}
+                                <span class="text-primary"><i class="fas fa-external-link-alt"></i>Open</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <div class="text-muted opacity-25 display-1 mb-3"><i class="fas fa-trophy"></i></div>
+                <h4 class="text-secondary fw-bold">No achievements found yet.</h4>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="{% url 'home' %}" class="btn btn-outline-secondary rounded-pill px-4">
+                <i class="fas fa-arrow-left me-2"></i> Back to Home
+            </a>
+        </div>
+    </div>
+</section>
+
+<style>
+    .group-hover-scale { transition: transform 0.5s ease; }
+    .group:hover .group-hover-scale { transform: scale(1.05); }
+    .transform-scale-sm { transform: scale(1.02); }
+</style>
+
+<!-- PDF.js for thumbnails -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        const canvases = document.querySelectorAll('canvas[data-pdf-url]');
+        
+        canvases.forEach(canvas => {
+            const url = canvas.dataset.pdfUrl;
+            const loadingSpinner = canvas.nextElementSibling; // The spinner div
+
+            pdfjsLib.getDocument(url).promise.then(pdf => {
+                // Fetch the first page
+                pdf.getPage(1).then(page => {
+                    const scale = 1.5; // Higher scale for better quality
+                    const viewport = page.getViewport({ scale: scale });
+
+                    const context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    
+                    // Add position absolute to prevent layout shifts
+                    canvas.style.position = 'absolute';
+                    canvas.style.top = '0';
+                    canvas.style.left = '0';
+                    canvas.style.width = '100%';
+                    canvas.style.height = '100%';
+
+                    const renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
+                    
+                    page.render(renderContext).promise.then(() => {
+                        // Hide spinner when done
+                        if(loadingSpinner && loadingSpinner.classList.contains('pdf-loading')) {
+                            loadingSpinner.style.display = 'none';
+                        }
+                    });
+                });
+            }).catch(error => {
+                console.error('Error loading PDF:', error);
+                if(loadingSpinner) loadingSpinner.innerHTML = '<i class="fas fa-exclamation-circle text-danger"></i>';
+            });
+        });
+    });
+</script>
+{% endblock %}

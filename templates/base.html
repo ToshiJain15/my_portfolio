@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}My Personal Portfolio showing my skills, projects and experience.{% endblock %}">
+    <title>{% block title %}My Portfolio{% endblock %}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="bg-light text-primary-dark d-flex flex-column min-vh-100 selection-primary">
+    
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-glass fixed-top shadow-sm py-3">
+        <div class="container">
+            <a class="navbar-brand text-gradient" href="{% url 'home' %}">Portfolio<span class="text-primary">.</span></a>
+            <button class="navbar-toggler border-0 focus-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center gap-2">
+                    <li class="nav-item"><a class="nav-link px-3" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="{% url 'about' %}">About</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="{% url 'projects' %}">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="{% url 'skills' %}">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="{% url 'experience' %}">Experience</a></li>
+                    <li class="nav-item mt-2 mt-lg-0"><a class="nav-link btn btn-primary text-white px-4 py-2 rounded-pill shadow-sm hover-lift" href="{% url 'contact' %}">Let's Talk</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow-1 pt-5 mt-5 position-relative w-100 overflow-hidden">
+        {% if messages %}
+        <div class="container mt-4 reveal">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-soft border-0 rounded-4" role="alert">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-info-circle me-2"></i> {{ message }}
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-5 mt-auto border-top border-dark-subtle position-relative overflow-hidden" style="background: #0f172a;">
+        <div class="blob" style="bottom: -50%; left: -10%; width: 500px; height: 500px; opacity: 0.05;"></div>
+        <div class="container position-relative z-1 text-center">
+            <div class="mb-4 d-flex justify-content-center gap-3">
+                <a href="https://github.com/ToshiJain15" class="social-icon text-decoration-none" target="_blank" aria-label="GitHub"><i class="fab fa-github fa-lg"></i></a>
+                <a href="https://linkedin.com/in/toshi-jain" class="social-icon text-decoration-none" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                <a href="#" class="social-icon text-decoration-none" aria-label="Twitter"><i class="fab fa-x-twitter fa-lg"></i></a>
+                <a href="mailto:jaintoshi15@gmail.com" class="social-icon text-decoration-none" aria-label="Email"><i class="fas fa-envelope fa-lg"></i></a>
+            </div>
+            <p class="mb-2 text-white opacity-75 fw-light">Designed & Built by <span class="text-gradient fw-bold">Toshi Jain</span></p>
+            <p class="mb-0 small text-white opacity-50">&copy; 2024 All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

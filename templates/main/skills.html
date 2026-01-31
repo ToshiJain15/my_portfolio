@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Skills{% endblock %}
+
+{% block content %}
+<section class="py-5 position-relative overflow-hidden section-skills" style="min-height: 90vh;">
+    <!-- Abstract Background -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.05) 0%, transparent 50%); z-index: -1;"></div>
+    <div class="blob" style="bottom: 20%; left: -10%; width: 500px; height: 500px; opacity: 0.05;"></div>
+    
+    <div class="container py-5 position-relative">
+        <div class="text-center mb-5 reveal">
+            <span class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill text-uppercase fw-bold ls-wide">Tech Stack</span>
+            <h2 class="display-4 fw-bold mb-3">My <span class="text-gradient">Arsenal</span></h2>
+            <p class="text-secondary mx-auto" style="max-width: 600px;">
+                A curated list of technologies I use to build scalable and beautiful digital products.
+            </p>
+        </div>
+        
+        <div class="row justify-content-center">
+            {% for category, skills in skills_data.items %}
+            {% if skills %}
+            <div class="col-lg-10 mb-5 reveal delay-100">
+                <!-- Category Header -->
+                <div class="mb-4 position-relative">
+                    <h3 class="h4 fw-bold text-dark d-inline-block position-relative z-1 pe-3 bg-light-subtle">{{ category }}</h3>
+                    <div class="position-absolute top-50 start-0 w-100 border-top border-secondary border-opacity-10" style="z-index: 0;"></div>
+                </div>
+                
+                <!-- Skills Grid -->
+                <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+                    {% for skill in skills %}
+                    <div class="col">
+                        <div class="skill-card h-100 p-3 bg-white rounded-4 shadow-sm border border-light d-flex flex-column align-items-center justify-content-center text-center hover-lift transition-all position-relative overflow-hidden group">
+                             <!-- Subtle Progress Background -->
+                            <div class="position-absolute bottom-0 start-0 h-1 bg-primary opacity-10" style="width: {{ skill.proficiency }}%; transition: width 1s ease;"></div>
+                            
+                            <!-- Icon (Generic fallback or mapped) -->
+                            <div class="mb-3 p-3 rounded-circle bg-light text-primary fs-3 skill-icon transition-transform">
+                                <i class="fas fa-code"></i> 
+                            </div>
+                            
+                            <h6 class="fw-bold text-dark mb-1">{{ skill.name }}</h6>
+                            <span class="small text-muted fw-medium">{{ skill.proficiency }}% Proficiency</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% empty %}
+            <div class="col-12 text-center reveal">
+                <p class="text-muted">No skills added yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    
+        <!-- HackerRank Section -->
+        {% if hackerrank.badges %}
+        <div class="row justify-content-center mt-5 reveal">
+            <div class="col-lg-10">
+                <div class="mb-4 position-relative">
+                    <h3 class="h4 fw-bold text-dark d-inline-block position-relative z-1 pe-3 bg-light-subtle">HackerRank Profile</h3>
+                    <div class="position-absolute top-50 start-0 w-100 border-top border-secondary border-opacity-10" style="z-index: 0;"></div>
+                </div>
+                
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                    <div class="card-body p-4 p-md-5 d-flex flex-column flex-md-row align-items-center justify-content-between gap-4">
+                        <!-- Profile Info -->
+                        <div class="d-flex align-items-center gap-4">
+                            <div class="bg-success bg-opacity-10 p-4 rounded-circle text-success">
+                                <i class="fab fa-hackerrank fa-3x"></i>
+                            </div>
+                            <div>
+                                <h4 class="fw-bold mb-1">Coding Stats</h4>
+                                <p class="text-muted mb-0 small">Real-time data from HackerRank</p>
+                                <a href="{{ hackerrank.profile_url }}" target="_blank" class="btn btn-sm btn-outline-success rounded-pill mt-3 px-3">
+                                    View Profile <i class="fas fa-external-link-alt ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Badges Grid -->
+                        <div class="flex-grow-1 d-flex gap-3 justify-content-center justify-content-md-end flex-wrap">
+                            {% for badge in hackerrank.badges %}
+                            <div class="d-flex flex-column align-items-center text-center p-3 rounded-3 bg-light border border-light" style="min-width: 100px;">
+                                {% if badge.icon_url %}
+                                    <img src="{{ badge.icon_url }}" alt="{{ badge.name }}" class="mb-2" style="width: 50px; height: 50px; object-fit: contain;">
+                                {% else %}
+                                    <div class="mb-2 text-warning fs-1"><i class="fas fa-medal"></i></div>
+                                {% endif %}
+                                <span class="fw-bold text-dark small">{{ badge.name }}</span>
+                                <div class="text-warning small mt-1">
+                                    {% for i in "x"|rjust:badge.stars %}
+                                    <i class="fas fa-star"></i>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+
+<style>
+    .skill-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        border-color: var(--primary-color);
+    }
+    .skill-card:hover .skill-icon {
+        background-color: var(--primary-color) !important;
+        color: white !important;
+        transform: scale(1.1);
+    }
+</style>
+<!-- Script to try and auto-map basic icons if possible, purely visual enhancement -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const iconMap = {
+            'Python': 'fa-python',
+            'Java': 'fa-java',
+            'JavaScript': 'fa-js',
+            'React': 'fa-react',
+            'Angular': 'fa-angular',
+            'Vue': 'fa-vuejs',
+            'HTML': 'fa-html5',
+            'CSS': 'fa-css3-alt',
+            'Sass': 'fa-sass',
+            'Bootstrap': 'fa-bootstrap',
+            'Docker': 'fa-docker',
+            'AWS': 'fa-aws',
+            'Git': 'fa-git-alt',
+            'GitHub': 'fa-github',
+            'Database': 'fa-database',
+            'MySQL': 'fa-database',
+            'PostgreSQL': 'fa-database',
+            'Linux': 'fa-linux',
+            'Android': 'fa-android',
+            'Apple': 'fa-apple',
+            'Windows': 'fa-windows',
+            'Django': 'fa-python', 
+            'Laravel': 'fa-php',
+            'PHP': 'fa-php'
+        };
+        
+        document.querySelectorAll('.skill-card').forEach(card => {
+            const name = card.querySelector('h6').innerText.trim();
+            const iconEl = card.querySelector('i');
+            
+            // Check for exact match or contains
+            let foundKey = Object.keys(iconMap).find(key => name.includes(key));
+            if (foundKey) {
+                iconEl.className = `fab ${iconMap[foundKey]}`;
+            } else if (name.toLowerCase().includes('database') || name.toLowerCase().includes('sql')) {
+                iconEl.className = 'fas fa-database';
+            } else if (name.toLowerCase().includes('cloud')) {
+                iconEl.className = 'fas fa-cloud';
+            } else if (name.toLowerCase().includes('terminal') || name.toLowerCase().includes('bash')) {
+                iconEl.className = 'fas fa-terminal';
+            }
+        });
+    });
+</script>
+{% endblock %}

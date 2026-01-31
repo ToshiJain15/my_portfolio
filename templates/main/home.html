@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - My Portfolio{% endblock %}
+
+{% block content %}
+<section class="hero-section d-flex align-items-center position-relative overflow-hidden" style="min-height: 95vh; margin-top: -60px;">
+    <!-- Abstract Background Blobs -->
+    <div class="blob" style="top: 10%; left: 5%; width: 400px; height: 400px; background: var(--primary-color);"></div>
+    <div class="blob" style="bottom: 10%; right: 5%; width: 500px; height: 500px; background: #2dd4bf; animation-delay: -5s;"></div>
+
+    <div class="container position-relative z-1">
+        <div class="row align-items-center min-vh-75">
+            <div class="col-lg-7 order-2 order-lg-1 hero-text py-5">
+                <div class="reveal">
+                    <span class="d-inline-flex align-items-center py-2 px-3 rounded-pill bg-white text-primary fw-bold mb-4 shadow-sm border border-primary-subtle">
+                        <span class="me-2">🚀</span> Open to opportunities
+                    </span>
+                    <h1 class="display-2 fw-bold mb-4 leading-tight">
+                        Hi, I'm <span class="text-gradient">Toshi Jain</span>
+                        <br>
+                        <span class="fs-1 text-secondary-gradient" id="typed-text"></span><span class="typed-cursor">|</span>
+                    </h1>
+                    <p class="lead mb-5 text-secondary pe-lg-5 lh-lg" style="font-size: 1.2rem;">
+                        Transforming complex problems into realistic, scalable, and beautiful 
+                        <span class="fw-bold text-dark">digital solutions</span>. 
+                        Let's build something extraordinary together.
+                    </p>
+                    <div class="d-flex flex-column flex-sm-row gap-3">
+                        <a href="{% url 'projects' %}" class="btn btn-primary btn-lg px-5 shadow-lg icon-link icon-link-hover">
+                            View My Work <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                        <a href="{% url 'contact' %}" class="btn btn-outline-dark btn-lg px-5">
+                            Contact Me
+                        </a>
+                    </div>
+
+                    <!-- Mini Tech Stack in Hero -->
+                    <div class="mt-5 pt-3 border-top border-secondary-subtle w-75">
+                        <p class="small fw-bold text-uppercase text-muted mb-3 tracking-wide">Tech Stack</p>
+                        <div class="d-flex gap-4">
+                            <i class="fab fa-python tech-stack-icon" title="Python"></i>
+                            <i class="fab fa-js tech-stack-icon" title="JavaScript"></i>
+                            <i class="fab fa-react tech-stack-icon" title="React/Django"></i>
+                            <i class="fab fa-html5 tech-stack-icon" title="HTML5"></i>
+                            <i class="fab fa-css3-alt tech-stack-icon" title="CSS3"></i>
+                            <i class="fas fa-database tech-stack-icon" title="Databases"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-5 order-1 order-lg-2 mb-5 mb-lg-0 text-center">
+                 <div class="reveal delay-200">
+                     <div class="position-relative d-inline-block">
+                        <!-- Decorative Circles -->
+                        <div class="position-absolute top-50 start-50 translate-middle w-125 h-125 rounded-circle border border-2 border-primary opacity-25" style="width: 120%; height: 120%;"></div>
+                        <div class="position-absolute top-50 start-50 translate-middle w-110 h-110 rounded-circle border border-dashed border-secondary opacity-25" style="width: 110%; height: 110%;"></div>
+                        
+                        <!-- Main Image -->
+                        <div class="ratio ratio-1x1 rounded-circle shadow-2xl overflow-hidden border border-4 border-white position-relative" style="width: 400px; max-width: 100%;">
+                            <img src="{% static 'media/photo.jfif' %}" alt="Toshi Jain" class="img-fluid object-fit-cover w-100 h-100" 
+                                 style="transform: scale(1.02); transition: transform 0.3s ease;">
+                        </div>
+
+                        <!-- Floating Badge -->
+                        <div class="position-absolute bottom-0 end-0 mb-4 me-4 bg-white p-3 rounded-4 shadow-lg border border-light d-flex align-items-center gap-3 animate-float">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded-circle text-primary">
+                                <i class="fas fa-code fa-lg"></i>
+                            </div>
+                            <div class="text-start line-height-sm">
+                                <div class="fw-bold text-dark">Developer</div>
+                                <div class="small text-muted">Creative & Logic</div>
+                            </div>
+                        </div>
+                     </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Achievements & Highlights Section -->
+<section class="py-5 bg-gradient-soft position-relative">
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-end mb-5 reveal">
+            <div>
+                <span class="badge bg-primary bg-opacity-10 text-primary mb-2 px-3 py-2 rounded-pill text-uppercase fw-bold ls-wider">Highlights</span>
+                <h2 class="display-5 fw-bold">My <span class="text-gradient">Achievements</span></h2>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            {% for item in achievements %}
+            <div class="col-md-6 col-lg-4 reveal delay-100">
+                {% with title=item.title|lower %}
+                <div class="card h-100 {% if 'ugc net' in title or 'gate' in title %}border-2 border-warning shadow-lg transform-scale-sm{% else %}border-0 shadow-sm{% endif %} hover-card rounded-5 overflow-hidden group">
+                {% endwith %}
+                    <!-- Media Area -->
+                    <div class="position-relative bg-light overflow-hidden" style="padding-top: 75%;"> <!-- 4:3 Aspect Ratio -->
+                        {% if item.is_video and item.video %}
+                             <video controls class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover">
+                                 <source src="{{ item.video.url }}" type="video/mp4">
+                                 Your browser does not support the video tag.
+                             </video>
+                        {% elif item.file %}
+                             {% with ext5=item.file.url|slice:"-5:"|lower ext4=item.file.url|slice:"-4:"|lower %}
+                                 {% if ext4 == '.pdf' %}
+                                     <!-- PDF Canvas Renderer -->
+                                     <div class="position-absolute top-0 start-0 w-100 h-100 bg-light d-flex align-items-center justify-content-center">
+                                         <canvas data-pdf-url="{{ item.file.url }}" class="pdf-thumbnail w-100 h-100 object-fit-contain"></canvas>
+                                         <!-- Loading Spinner -->
+                                         <div class="position-absolute top-50 start-50 translate-middle text-secondary pdf-loading">
+                                             <div class="spinner-border spinner-border-sm" role="status"></div>
+                                         </div>
+                                         <!-- Transparent overlay to capture click -->
+                                         <a href="{{ item.file.url }}" target="_blank" class="position-absolute top-0 start-0 w-100 h-100 z-2 stretched-link" aria-label="View {{ item.title }}"></a>
+                                     </div>
+                                 {% elif ext5 == '.html' %}
+                                     <!-- HTML Embed -->
+                                     <div class="position-absolute top-0 start-0 w-100 h-100 bg-white">
+                                         <iframe src="{{ item.file.url }}" class="w-100 h-100 border-0" style="pointer-events: none; transform: scale(0.25); transform-origin: 0 0; width: 400%; height: 400%;" scrolling="no"></iframe>
+                                         <a href="{{ item.file.url }}" target="_blank" class="position-absolute top-0 start-0 w-100 h-100 z-2 stretched-link" aria-label="View {{ item.title }}"></a>
+                                     </div>
+                                 {% else %}
+                                     <!-- Assuming Image -->
+                                     <img src="{{ item.file.url }}" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover transition-transform group-hover-scale" alt="{{ item.title }}">
+                                 {% endif %}
+                             {% endwith %}
+                        {% else %}
+                             <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center text-secondary bg-light">
+                                 <i class="fas fa-certificate fa-3x opacity-25"></i>
+                             </div>
+                        {% endif %}
+                        
+                        <!-- Badge for Type -->
+                        <div class="position-absolute top-0 start-0 m-3 pointer-events-none z-3">
+                            <span class="badge bg-white text-dark shadow-sm rounded-pill fw-bold text-uppercase small px-3 py-2">
+                                {% if 'UGC NET' in item.title or 'GATE' in item.title %}
+                                    <i class="fas fa-star me-1 text-warning"></i> Top Achievement
+                                {% elif item.is_video %}
+                                    <i class="fas fa-video me-1 text-danger"></i> Demo
+                                {% else %}
+                                    <i class="fas fa-award me-1 text-warning"></i> Certificate
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body p-4 d-flex flex-column">
+                        <h5 class="fw-bold mb-2 text-truncate" title="{{ item.title }}">{{ item.title }}</h5>
+                        <p class="card-text text-secondary small flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                            {{ item.description }}
+                        </p>
+                        <div class="mt-3 pt-3 border-top border-light text-muted small d-flex justify-content-between">
+                            <span><i class="far fa-calendar-alt me-2"></i> {{ item.created_at|date:"M Y" }}</span>
+                            {% if item.file and '.pdf' in item.file.url|lower %}
+                                <span class="text-primary"><i class="fas fa-external-link-alt"></i>Open</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <div class="text-muted opacity-25 display-1 mb-3"><i class="fas fa-trophy"></i></div>
+                <h4 class="text-secondary fw-bold">Loading Greatness...</h4>
+                <p class="text-muted">Achievements and demos are being curated. Stay tuned!</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-5 reveal delay-200">
+            <a href="{% url 'achievements_list' %}" class="btn btn-outline-primary rounded-pill px-5 py-2">
+                View All Achievements <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<style>
+    .group-hover-scale { transition: transform 0.5s ease; }
+    .group:hover .group-hover-scale { transform: scale(1.05); }
+    .transform-scale-sm { transform: scale(1.02); }
+</style>
+
+<!-- PDF.js for thumbnails -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        const canvases = document.querySelectorAll('canvas[data-pdf-url]');
+        
+        canvases.forEach(canvas => {
+            const url = canvas.dataset.pdfUrl;
+            const loadingSpinner = canvas.nextElementSibling; // The spinner div
+
+            pdfjsLib.getDocument(url).promise.then(pdf => {
+                // Fetch the first page
+                pdf.getPage(1).then(page => {
+                    const scale = 1.5; // Higher scale for better quality
+                    const viewport = page.getViewport({ scale: scale });
+
+                    const context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    
+                    // Add position absolute to prevent layout shifts
+                    canvas.style.position = 'absolute';
+                    canvas.style.top = '0';
+                    canvas.style.left = '0';
+                    canvas.style.width = '100%';
+                    canvas.style.height = '100%';
+
+                    const renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
+                    
+                    page.render(renderContext).promise.then(() => {
+                        // Hide spinner when done
+                        if(loadingSpinner && loadingSpinner.classList.contains('pdf-loading')) {
+                            loadingSpinner.style.display = 'none';
+                        }
+                    });
+                });
+            }).catch(error => {
+                console.error('Error loading PDF:', error);
+                if(loadingSpinner) loadingSpinner.innerHTML = '<i class="fas fa-exclamation-circle text-danger"></i>';
+            });
+        });
+    });
+</script>
+{% endblock %}

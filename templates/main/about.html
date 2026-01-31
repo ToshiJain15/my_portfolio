@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Me{% endblock %}
+
+{% block content %}
+<section class="py-5 position-relative overflow-hidden" style="min-height: 80vh;">
+    <!-- Background element -->
+    <div class="blob" style="top: 20%; right: -10%; width: 600px; height: 600px; opacity: 0.05;"></div>
+    
+    <div class="container py-lg-5 position-relative">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5 mb-5 mb-lg-0 reveal">
+                <div class="position-relative pe-lg-4">
+                    <!-- Photo Frame -->
+                    <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-primary rounded-5 transform-rotate-3 opacity-20" style="transform: rotate(-4deg) scale(1.02); z-index: -1;"></div>
+                    <img src="{% static 'media/photo.jfif' %}" alt="About Me" class="img-fluid rounded-5 shadow-xl border border-white" style="width: 100%; object-fit: cover; transform: rotate(2deg);">
+                    
+                    <!-- Floating Experience Badge -->
+                    <div class="position-absolute bottom-0 start-0 bg-white p-3 rounded-4 shadow-lg mb-n4 ms-n4 border border-light animate-float">
+                        <div class="d-flex align-items-center gap-3">
+                            <h2 class="display-6 fw-bold text-primary mb-0">2+</h2>
+                            <div class="small fw-bold text-dark lh-sm">Years of<br>Experience</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-7 reveal delay-200">
+                <span class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill text-uppercase fw-bold ls-wide">About Me</span>
+                <h2 class="display-4 fw-bold mb-4">Crafting Digital <span class="text-gradient">Experiences</span></h2>
+                
+                <div class="card bg-white border-0 shadow-soft rounded-4 p-4 mb-4 glass-card">
+                    <p class="lead text-secondary mb-3">
+                        I’m a passionate <strong class="text-dark">Full Stack Developer</strong> and <strong class="text-dark">AI Enthusiast</strong> 
+                        dedicated to building scalable, user-centric web applications.
+                    </p>
+                    <p class="text-muted mb-0">
+                        Currently optimizing backend systems at <strong class="text-primary">Tata Consultancy Services (TCS)</strong>. 🏅 Gold Medalist in MCA.
+                    </p>
+                </div>
+
+                <div class="row g-4 mb-5">
+                    <div class="col-sm-6">
+                        <div class="d-flex gap-3">
+                            <div class="bg-primary bg-opacity-10 p-3 rounded-circle text-primary h-auto d-flex align-items-center">
+                                <i class="fas fa-graduation-cap fa-lg"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-1">Education</h5>
+                                <div class="mb-2">
+                                    <strong class="d-block text-dark small">MCA - Gold Medalist</strong>
+                                    <span class="text-muted small">8.93 CGPA (2024)</span>
+                                </div>
+                                <div>
+                                    <strong class="d-block text-dark small">BCA - Honours</strong>
+                                    <span class="text-muted small">78.5% (2022)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex gap-3">
+                            <div class="bg-success bg-opacity-10 p-3 rounded-circle text-success h-auto d-flex align-items-center">
+                                <i class="fas fa-certificate fa-lg"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-1">Certifications</h5>
+                                <ul class="list-unstyled small text-secondary mb-0">
+                                    <li class="mb-1"><i class="fas fa-check text-success me-1"></i> UGC-NET & GATE (2024)</li>
+                                    <li class="mb-1"><i class="fas fa-check text-success me-1"></i> Azure AI Fundamentals</li>
+                                    <li class="mb-1"><i class="fas fa-check text-success me-1"></i> Oracle Cloud Architect</li>
+                                    <li><i class="fas fa-check text-success me-1"></i> HackerRank SQL (Gold)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-3">
+                    <a href="#" class="btn btn-primary btn-lg rounded-pill px-4 shadow-lg icon-link icon-link-hover">
+                        Download CV <i class="fas fa-download ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

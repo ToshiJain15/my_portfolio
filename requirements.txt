@@ -1,0 +1,7 @@
+Django
+mysqlclient
+python-dotenv
+Pillow
+requests
+gunicorn
+whitenoise

@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Projects{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-gradient-soft position-relative">
+    <!-- Decor -->
+    <div class="position-absolute top-0 end-0 p-5 opacity-10 d-none d-lg-block">
+        <i class="fas fa-code-branch fa-10x text-primary"></i>
+    </div>
+
+    <div class="container py-5 position-relative">
+        <div class="text-center mb-5 reveal">
+            <span class="badge bg-primary bg-opacity-10 text-primary mb-2 px-3 py-2 rounded-pill text-uppercase fw-bold ls-wide">Portfolio</span>
+            <h2 class="display-3 fw-bold mb-3">Featured <span class="text-gradient">Projects</span></h2>
+            <p class="lead text-secondary mx-auto" style="max-width: 700px;">
+                A selection of my recent work, ranging from web applications to experimental coding projects.
+            </p>
+        </div>
+        
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for project in projects %}
+            <div class="col reveal delay-{{ forloop.counter }}00">
+                <div class="card h-100 border-0 shadow-sm hover-card rounded-5 overflow-hidden group">
+                    <div class="position-relative overflow-hidden">
+                         {% if project.video %}
+                        <div class="ratio ratio-4x3 bg-light">
+                             <video src="{{ project.video.url }}" class="object-fit-cover w-100 h-100" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>
+                        </div>
+                        {% elif project.image %}
+                        <img src="{{ project.image.url }}" class="card-img-top transition-scale" alt="{{ project.title }}" style="height: 240px; object-fit: cover;">
+                        {% else %}
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center text-muted border-bottom" style="height: 240px;">
+                            <i class="fas fa-laptop-code fa-4x opacity-25"></i>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Overlay on Hover -->
+                        <div class="card-img-overlay bg-dark bg-opacity-75 d-flex align-items-center justify-content-center opacity-0 hover-opacity-100 transition-all p-4">
+                             <div class="d-flex gap-3 transform-y-20 hover-transform-y-0 transition-transform">
+                                {% if project.github_url %}
+                                <a href="{{ project.github_url }}" class="btn btn-light rounded-circle shadow-lg p-3" target="_blank" title="View Code" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fab fa-github fa-lg"></i>
+                                </a>
+                                {% endif %}
+                                {% if project.live_demo_url %}
+                                <a href="{{ project.live_demo_url }}" class="btn btn-primary rounded-circle shadow-lg p-3" target="_blank" title="Live Demo" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-external-link-alt fa-lg"></i>
+                                </a>
+                                {% endif %}
+                             </div>
+                        </div>
+                    </div>
+                   
+                    <div class="card-body p-4 d-flex flex-column">
+                        <div class="mb-3">
+                            <h5 class="card-title fw-bold mb-1">{{ project.title }}</h5>
+                            <!-- Optional Category if available, else standard text -->
+                            <small class="text-muted">Full Stack Development</small>
+                        </div>
+                        
+                        <p class="card-text text-secondary small line-clamp-3 mb-4 flex-grow-1">
+                            {{ project.description|truncatewords:25 }}
+                        </p>
+
+                         <div class="mt-auto pt-3 border-top border-light">
+                            <div class="d-flex flex-wrap gap-2">
+                                {% for tech in project.tech_stack.split|slice:":4" %}
+                                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary-subtle rounded-pill fw-medium px-2 py-1 tx-xs">
+                                    {{ tech }}
+                                </span>
+                                {% endfor %}
+                                {% if project.tech_stack.split|length > 4 %}
+                                <span class="badge bg-light text-muted border rounded-pill fw-medium px-2 py-1 tx-xs">+More</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <div class="text-muted opacity-25 mb-3"><i class="fas fa-folder-open fa-5x"></i></div>
+                <h4 class="text-secondary fw-bold">No projects uploaded yet.</h4>
+                <p class="text-muted">Working on something awesome!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<style>
+/* Local overrides for card hover specific to projects */
+.transition-scale { transition: transform 0.5s ease; }
+.hover-card:hover .transition-scale { transform: scale(1.05); }
+.hover-opacity-100:hover { opacity: 1 !important; }
+.transform-y-20 { transform: translateY(20px); }
+.hover-card:hover .hover-transform-y-0 { transform: translateY(0); }
+.tx-xs { font-size: 0.75rem; }
+</style>
+{% endblock %}

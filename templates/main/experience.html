@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Experience{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light position-relative" style="min-height: 90vh;">
+     <!-- Subtle grid pattern -->
+     <div class="position-absolute top-0 start-0 w-100 h-100 opacity-05" 
+          style="background-image: radial-gradient(#6366f1 1px, transparent 1px); background-size: 30px 30px;">
+     </div>
+     
+    <div class="container py-5 position-relative">
+        <div class="text-center mb-5 reveal">
+            <span class="badge bg-primary bg-opacity-10 text-primary mb-2 px-3 py-2 rounded-pill text-uppercase fw-bold ls-wide">Career Path</span>
+            <h2 class="display-4 fw-bold mb-3">My <span class="text-gradient">Journey</span></h2>
+            <p class="text-secondary mx-auto" style="max-width: 600px;">
+                Building scalable solutions and creating value at top organizations.
+            </p>
+        </div>
+
+        <div class="timeline position-relative mx-auto mt-5" style="max-width: 900px;">
+            <!-- Vertical Line -->
+            <div class="position-absolute start-0 h-100 bg-gradient border-start border-2 border-primary border-opacity-25" style="left: 20px; z-index: 0;"></div>
+            
+            {% for exp in experiences %}
+            <div class="row mb-5 reveal delay-100 position-relative z-1 g-0">
+                <!-- Timeline Marker -->
+                <div class="col-auto pe-4 position-relative">
+                    <div class="bg-white rounded-circle border border-4 border-primary shadow-sm d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; z-index: 1;">
+                        <i class="fas fa-briefcase text-primary fs-6"></i>
+                    </div>
+                </div>
+                
+                <!-- Content -->
+                 <div class="col">
+                    <div class="card border-0 shadow-sm p-4 hover-card glass-card rounded-4">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
+                            <div>
+                                <h4 class="fw-bold text-dark mb-1">{{ exp.role }}</h4>
+                                <h5 class="h6 text-primary fw-bold mb-0">{{ exp.company }}</h5>
+                            </div>
+                            <span class="badge bg-light text-secondary border border-secondary border-opacity-10 rounded-pill px-3 py-2 mt-2 mt-md-0 fw-medium">
+                                <i class="far fa-calendar-alt me-2"></i>
+                                {{ exp.start_date|date:"F Y" }} - 
+                                {% if exp.end_date %}
+                                    {{ exp.end_date|date:"F Y" }}
+                                {% else %}
+                                    Present
+                                {% endif %}
+                            </span>
+                        </div>
+                        
+                        <div class="card-text text-secondary lh-lg mb-3">
+                            {{ exp.description|linebreaksbr }}
+                        </div>
+                        
+                        <!-- Visual flare for Skills (if detected in text) -->
+                        {% if "Technologies:" in exp.description or "Skills Used:" in exp.description %}
+                        <div class="mt-3 pt-3 border-top border-light">
+                             <small class="text-muted fw-bold text-uppercase ls-wide d-block mb-2">Technologies & Tools</small>
+                             <!-- We can't split easily in DTL without custom filter, so we rely on the JS below to 'tagify' the last line if it matches -->
+                             <div class="tech-tags-container" data-content="{{ exp.description }}"></div>
+                        </div>
+                        {% endif %}
+                    </div>
+                 </div>
+            </div>
+            {% empty %}
+            <div class="text-center reveal">
+                <p class="lead text-muted">No experience entries found.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<script>
+    // Optional: Parse the text client-side to create pills for the technologies line
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.tech-tags-container').forEach(container => {
+            const content = container.getAttribute('data-content');
+            // Look for "Technologies:" or "Skills Used:"
+            const regex = /(Technologies:|Skills Used:)\s*(.*)/i;
+            const match = content.match(regex);
+            
+            if (match && match[2]) {
+                const skills = match[2].split(/,|;/).map(s => s.trim()).filter(s => s);
+                let html = '';
+                skills.forEach(skill => {
+                    html += `<span class="badge bg-primary bg-opacity-10 text-primary me-2 mb-2 px-3 py-2 rounded-pill fw-medium border border-primary-subtle">${skill}</span>`;
+                });
+                container.innerHTML = html;
+                
+                // Also hide the raw text line in the description if possible? 
+                // It's tricky without structured data, so we leave the text as is or the user accepts duplication.
+                // Or we can try to find the text node in the previous sibling and replace it.
+                // content div is .card-text
+                // This is a "nice to have".
+            }
+        });
+    });
+</script>
+{% endblock %}
