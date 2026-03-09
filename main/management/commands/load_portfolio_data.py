@@ -102,118 +102,159 @@ Technologies: php, Laravel and Svelte'''
             {
                 'title': 'Jodhana Tourism',
                 'description': 'A tourism website for Jodhpur city featuring booking and information services.',
-                'tech_stack': 'Laravel, PHP, MySQL, Bootstrap',
+                'tech_stack': 'Laravel PHP MySQL Bootstrap',
                 'github_url': 'https://github.com/ToshiJain15/jodhana',
                 'video_file': 'websites/Jodhana Trip Advisor.webm'
             },
             {
                 'title': 'School Management System (Laravel)',
-                'description': 'Comprehensive school management system handling student data, attendance, and reporting.',
-                'tech_stack': 'Laravel, PHP, MySQL',
+                'description': 'Comprehensive school management system handling student data, attendance, and reporting. Featuring specialized portals for Admin, Teachers, and Students.',
+                'tech_stack': 'Laravel PHP MySQL',
                 'github_url': 'https://github.com/ToshiJain15/SchoolLaravel',
                 'video_file': None
+            },
+            {
+                'title': 'Modern React Web App',
+                'description': 'A scalable and responsive web application built with React, focusing on component-based architecture.',
+                'tech_stack': 'React JavaScript CSS',
+                'github_url': None,
+                'video_file': 'websites/ME-website.webm'
+            },
+            {
+                'title': 'Teacher Portal - School System',
+                'description': 'An interface for teachers to manage student performance, grading, and course materials.',
+                'tech_stack': 'PHP Laravel MySQL',
+                'github_url': None,
+                'video_file': 'websites/Teacher.webm'
+            },
+            {
+                'title': 'Student Portal - School System',
+                'description': 'A dedicated portal for students to track attendance, grades, and school announcements.',
+                'tech_stack': 'PHP Laravel MySQL',
+                'github_url': None,
+                'video_file': 'websites/Student.webm'
             },
              {
                 'title': 'School Management (Core PHP)',
                 'description': 'Core PHP implementation of a school management system.',
-                'tech_stack': 'PHP, MySQL, HTML/CSS',
+                'tech_stack': 'PHP MySQL HTML CSS',
                 'github_url': 'https://github.com/ToshiJain15/Schoolphpcore',
                 'video_file': None
             },
             {
+                'title': 'Guru Chairs',
+                'description': 'A high-end, luxury furniture showcase website with elegant design and premium product displays.',
+                'tech_stack': 'HTML CSS JavaScript Bootstrap',
+                'github_url': None,
+                'video_file': 'websites/GURU CHAIRS _ Ultra Luxury Furniture.webm'
+            },
+            {
+                'title': 'Jain Masala',
+                'description': 'A pure Indian heritage food brand website focusing on traditional spices and flavor storytelling.',
+                'tech_stack': 'HTML CSS JavaScript',
+                'github_url': None,
+                'video_file': 'websites/Jain Masala _ Pure Indian Heritage.webm'
+            },
+            {
                 'title': 'Machine Learning Experiments',
                 'description': 'Collection of machine learning models and experiments.',
-                'tech_stack': 'Python, Scikit-learn, Pandas',
+                'tech_stack': 'Python Scikit-learn Pandas',
                 'github_url': 'https://github.com/ToshiJain15/machine_learning',
+                'live_demo_url': 'https://toshijain15.github.io/machine_learning/',
+                'image_file': 'projects/machine_learning.png',
                 'video_file': None
             },
             {
                 'title': 'OpenCV Computer Vision',
                 'description': 'Computer vision projects using OpenCV library.',
-                'tech_stack': 'Python, OpenCV',
+                'tech_stack': 'Python OpenCV',
                 'github_url': 'https://github.com/ToshiJain15/opencv',
+                'live_demo_url': 'https://toshijain15.github.io/opencv/',
+                'image_file': 'projects/opencv.png',
                 'video_file': None
             },
              {
                 'title': 'Crossword',
                 'description': 'Crossword puzzle generator/solver.',
-                'tech_stack': 'Python, AI',
+                'tech_stack': 'Python AI',
                 'github_url': 'https://github.com/ToshiJain15/crossword',
+                'live_demo_url': 'https://toshijain15.github.io/crossword/lab/index.html',
+                'image_file': 'projects/crossword.png',
                 'video_file': None
             },
             {
                 'title': 'Desi Potato Post',
                 'description': 'A comprehensive news or blog aggregation platform with a localized focus.',
-                'tech_stack': 'Django, Python, HTML, CSS',
+                'tech_stack': 'Django Python HTML CSS',
                 'github_url': None,
                 'video_file': 'websites/Home _ Desi Potato Post.webm'
             },
              {
                 'title': 'Rent As Buddy',
                 'description': 'A platform to rent a buddy for social events or company.',
-                'tech_stack': 'Django, Python, HTML, CSS',
+                'tech_stack': 'Django Python HTML CSS',
                 'github_url': None,
                 'video_file': 'websites/Home _ Rent As Buddy.webm'
             },
              {
                 'title': 'Vendor Management System',
                 'description': 'System to manage vendors, orders, and inventory efficiently.',
-                'tech_stack': 'Django, Python, HTML, CSS',
+                'tech_stack': 'Django Python HTML CSS',
                 'github_url': None,
                 'video_file': 'websites/Vendor Management System.webm'
             },
              {
                 'title': 'Personal Portfolio',
                 'description': 'My personal portfolio website showcasing my skills and projects.',
-                'tech_stack': 'Django, Python, Bootstrap',
+                'tech_stack': 'Django Python Bootstrap',
                 'github_url': None,
                 'video_file': 'websites/Home - My Portfolio.webm'
             },
              {
                 'title': 'Bimsu App',
                 'description': 'A web application for Bimsu services.',
-                'tech_stack': 'React, Python',
+                'tech_stack': 'React Python',
                 'github_url': None,
                 'video_file': 'websites/Bimsu.webm'
             },
              {
                 'title': 'Analytics Dashboard',
                 'description': 'A data visualization dashboard for business analytics.',
-                'tech_stack': 'React, D3.js, Python',
+                'tech_stack': 'React D3.js Python',
                 'github_url': None,
                 'video_file': 'websites/Dashboard.webm'
             },
              {
-                'title': 'ME Website',
-                'description': 'Corporate website for ME.',
-                'tech_stack': 'React, Python',
-                'github_url': None,
-                'video_file': 'websites/ME-website.webm'
-            },
-             {
                 'title': 'Mine Info Platform',
                 'description': 'Information platform for mining industry data.',
-                'tech_stack': 'React, Python',
+                'tech_stack': 'React Python',
                 'github_url': None,
                 'video_file': 'websites/Mine-Info.webm'
             }
         ]
         
         self.stdout.write('Populating Projects...')
+        processed_titles = []
         for proj in projects_base:
             defaults = {
                 'description': proj['description'],
                 'tech_stack': proj['tech_stack'],
                 'github_url': proj.get('github_url'),
-                'live_demo_url': None
+                'live_demo_url': proj.get('live_demo_url')
             }
             if proj.get('video_file'):
                 defaults['video'] = proj['video_file']
+            if proj.get('image_file'):
+                defaults['image'] = proj['image_file']
             
             Project.objects.update_or_create(
                 title=proj['title'],
                 defaults=defaults
             )
+            processed_titles.append(proj['title'])
+            
+        # Clean up projects not in the list anymore
+        Project.objects.exclude(title__in=processed_titles).delete()
 
         # Achievements Data (Merged from populate_achievements.py and update_achievements.py)
         # Import Achievement dynamically to ensure model availability
