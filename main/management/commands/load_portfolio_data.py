@@ -121,18 +121,25 @@ Technologies: php, Laravel and Svelte'''
                 'video_file': 'websites/ME-website.webm'
             },
             {
-                'title': 'Teacher Portal - School System',
+                'title': 'Admin Portal - Exam Scheduling',
                 'description': 'An interface for teachers to manage student performance, grading, and course materials.',
-                'tech_stack': 'PHP Laravel MySQL',
+                'tech_stack': 'Django + React',
                 'github_url': None,
-                'video_file': 'websites/Teacher.webm'
+                'video_file': 'websites/Admin.webm'
             },
             {
-                'title': 'Student Portal - School System',
-                'description': 'A dedicated portal for students to track attendance, grades, and school announcements.',
-                'tech_stack': 'PHP Laravel MySQL',
+                'title': 'Student Portal - College System',
+                'description': 'An interface for students to manage student performance, grading, and course materials.',
+                'tech_stack': 'Django + React',
                 'github_url': None,
                 'video_file': 'websites/Student.webm'
+            },
+            {
+                'title': 'College Website',
+                'description': 'A dedicated portal for students to track attendance, grades, and school announcements.',
+                'tech_stack': 'Django + React',
+                'github_url': None,
+                'video_file': 'websites/React App.webm'
             },
              {
                 'title': 'School Management (Core PHP)',
@@ -203,13 +210,7 @@ Technologies: php, Laravel and Svelte'''
                 'github_url': None,
                 'video_file': 'websites/Vendor Management System.webm'
             },
-             {
-                'title': 'Personal Portfolio',
-                'description': 'My personal portfolio website showcasing my skills and projects.',
-                'tech_stack': 'Django Python Bootstrap',
-                'github_url': None,
-                'video_file': 'websites/Home - My Portfolio.webm'
-            },
+
              {
                 'title': 'Bimsu App',
                 'description': 'A web application for Bimsu services.',
