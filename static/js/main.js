@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Typing Effect
     const typedTextSpan = document.getElementById('typed-text');
     if (typedTextSpan) {
-        const textArray = ["Python Developer", "Data Scientist", "Web Designer", "Tech Enthusiast"];
+        const textArray = ["Python Developer", "Full-Stack Engineer", "Machine Learning Enthusiast"];
         const typingDelay = 100;
         const erasingDelay = 100;
         const newTextDelay = 2000; // Delay between current and next text

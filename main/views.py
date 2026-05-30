@@ -16,7 +16,9 @@ def about(request):
     return render(request, 'main/about.html')
 
 def projects(request):
-    projects_list = Project.objects.all()
+    projects_list = list(Project.objects.all())
+    import random
+    random.shuffle(projects_list)
     return render(request, 'main/projects.html', {'projects': projects_list})
 
 def skills(request):

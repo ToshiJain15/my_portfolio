@@ -12,10 +12,31 @@ class Project(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def category(self):
+        tech = self.tech_stack.lower()
+        title = self.title.lower()
+        
+        # Tokenize tech stack to avoid substring matches (e.g. matching 'html' for 'ml')
+        tech_words = [t.strip() for t in tech.replace(',', ' ').replace('+', ' ').split()]
+        
+        if 'opencv' in tech_words or 'opencv' in title:
+            return 'Computer Vision'
+        elif 'scikit' in tech_words or 'scikit-learn' in tech_words or 'ml' in tech_words or 'machine' in tech_words or 'learning' in tech_words or 'predictive' in tech_words:
+            return 'Machine Learning & AI'
+        elif 'react' in tech_words or 'react.js' in tech_words or 'svelte' in tech_words or 'html' in tech_words or 'html5' in tech_words or 'css' in tech_words or 'css3' in tech_words or 'javascript' in tech_words or 'js' in tech_words:
+            if 'django' in tech_words or 'flask' in tech_words or 'laravel' in tech_words or 'fastapi' in tech_words or 'php' in tech_words:
+                return 'Full Stack Development'
+            return 'Frontend Development'
+        elif 'django' in tech_words or 'flask' in tech_words or 'laravel' in tech_words or 'fastapi' in tech_words or 'php' in tech_words:
+            return 'Backend Development'
+        return 'Software Development'
+
 class Skill(models.Model):
     CATEGORY_CHOICES = [
         ('Frontend', 'Frontend'),
         ('Backend', 'Backend'),
+        ('AI/ML', 'AI / ML'),
         ('Tools', 'Tools'),
         ('Other', 'Other'),
     ]

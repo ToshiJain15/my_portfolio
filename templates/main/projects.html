@@ -52,12 +52,11 @@
                              </div>
                         </div>
                     </div>
-                   
                     <div class="card-body p-4 d-flex flex-column">
                         <div class="mb-3">
                             <h5 class="card-title fw-bold mb-1">{{ project.title }}</h5>
-                            <!-- Optional Category if available, else standard text -->
-                            <small class="text-muted">Full Stack Development</small>
+                            <!-- Dynamic category based on tech stack and title -->
+                            <small class="text-muted">{{ project.category }}</small>
                         </div>
                         
                         <p class="card-text text-secondary small line-clamp-3 mb-4 flex-grow-1">

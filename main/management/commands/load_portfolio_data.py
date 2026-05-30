@@ -21,23 +21,30 @@ class Command(BaseCommand):
             {'name': 'Python', 'category': 'Backend', 'proficiency': 90},
             {'name': 'Django', 'category': 'Backend', 'proficiency': 85},
             {'name': 'Flask', 'category': 'Backend', 'proficiency': 80},
+            {'name': 'FastAPI', 'category': 'Backend', 'proficiency': 85},
             {'name': 'PHP', 'category': 'Backend', 'proficiency': 70},
             {'name': 'Laravel', 'category': 'Backend', 'proficiency': 75},
+            {'name': 'SQLAlchemy', 'category': 'Backend', 'proficiency': 80},
+            {'name': 'MySQL', 'category': 'Backend', 'proficiency': 85},
+            {'name': 'MongoDB', 'category': 'Backend', 'proficiency': 75},
+            {'name': 'SQLite', 'category': 'Backend', 'proficiency': 80},
             
-            # Database
-            {'name': 'MySQL', 'category': 'Backend', 'proficiency': 85}, # Grouping DB under Backend for now or change model choices
+            # AI / ML
+            {'name': 'Scikit-learn', 'category': 'AI/ML', 'proficiency': 85},
+            {'name': 'OpenCV', 'category': 'AI/ML', 'proficiency': 80},
+            {'name': 'Pandas', 'category': 'AI/ML', 'proficiency': 85},
+            {'name': 'NumPy', 'category': 'AI/ML', 'proficiency': 80},
+            {'name': 'Matplotlib', 'category': 'AI/ML', 'proficiency': 75},
             
             # Tools
             {'name': 'Git', 'category': 'Tools', 'proficiency': 90},
             {'name': 'Azure DevOps', 'category': 'Tools', 'proficiency': 75},
+            {'name': 'Postman', 'category': 'Tools', 'proficiency': 85},
             {'name': 'VS Code', 'category': 'Tools', 'proficiency': 95},
+            {'name': 'Jupyter Notebook', 'category': 'Tools', 'proficiency': 80},
+            {'name': 'Linux', 'category': 'Tools', 'proficiency': 80},
         ]
         
-        # Note: Skill model uses choices: Frontend, Backend, Tools, Other. 
-        # MySQL and MongoDB should technically be 'Backend' or I should add 'Database' to model choices?
-        # The prompt model had "category (Frontend / Backend / Tools)". I will map Database to Backend or Tools.
-        # Let's put Databases in 'Backend' or 'Other'. Or better, update model choices later if needed. For now 'Backend'.
-
         self.stdout.write('Populating Skills...')
         for skill in skills_data:
             Skill.objects.get_or_create(
@@ -51,42 +58,40 @@ class Command(BaseCommand):
                 'role': 'Python Developer',
                 'company': 'Tata Consultancy Services (TCS)',
                 'start_date': date(2024, 9, 1),
-                'end_date': None,
-                'description': '''• Developing and maintaining backend modules using Python and Flask for automation and data management.
-• Collaborating with cross-functional teams to optimize API performance and streamline business logic.
-• Conducting code reviews to maintain high-quality standards and improve maintainability.
-• Azure Devops for deployment.
-Technologies: Python, Flask, SqlAlchemy, Azure Devops'''
+                'end_date': date(2026, 5, 22),
+                'description': '''○ Led migration from deprecated Azure AD APIs to Microsoft Graph APIs, ensuring uninterrupted enterprise identity-management and authentication workflows.
+○ Investigated and resolved production issues involving user provisioning, UPN validation, and permission synchronization, improving platform reliability and reducing recurring support incidents.
+○ Developed and maintained Python-based automation scripts and backend services supporting cybersecurity and access-management operations for Sodexo internal platforms.
+○ Performed PostgreSQL query analysis and troubleshooting for service requests, accelerating issue resolution and improving operational efficiency across business-critical workflows.
+○ Collaborated with cross-functional teams to perform root-cause analysis, implement fixes, and validate production deployments while meeting SLA commitments.
+Stack: Python, Microsoft Graph API, Azure AD, MySQL, REST APIs, Azure DevOps'''
             },
             {
                 'role': 'Web Developer',
                 'company': 'Continuous Excellence (CE)',
                 'start_date': date(2024, 1, 1),
-                'end_date': date(2024, 8, 30),
-                'description': '''BIMSU, MineInfo and ME-website:
-• Designed and implemented responsive applications using React.js, improving project delivery speed.
-• Engineered transformers for enhanced data handling efficiency.
-• Optimized code performance and UI responsiveness, ensuring smooth user experience.
-Technologies: React, fast-api'''
+                'end_date': date(2024, 8, 31),
+                'description': '''○ Engineered 3 responsive React.js applications (BIMSU, MineInfo, ME-Website) serving 500+ concurrent users, accelerating project delivery speed by 20%.
+○ Designed and implemented a custom FastAPI data-transformer middleware layer, reducing large-scale data-ingestion latency by 40%.
+○ Optimised component-level rendering and bundle sizes across all three products, slashing initial page-load time by 35% through targeted performance profiling.
+Stack: React.js, FastAPI, Python, HTML5, CSS3'''
             },
             {
                 'role': 'Web Developer',
                 'company': 'NBNminds',
                 'start_date': date(2022, 3, 1),
                 'end_date': date(2023, 2, 28),
-                'description': '''Vector, Bursary and Golf:
-• Developed key components using Svelte and Laravel, driving innovation in the Vector Project.
-• Implemented CRUD operations and optimized database performance for large-scale data management.
-• Managed cron jobs in the Bursary Project to automate reporting processes.
-• Handled complex database migrations in the Golf Project, improving stability and load times.
-• Contributed to no-code platform development with advanced file handling and modular structure.
-Technologies: php, Laravel and Svelte'''
+                'description': '''○ Developed core features for the Vector no-code platform using Svelte and Laravel, contributing to a 15% reduction in client onboarding time.
+○ Automated cron-job reporting for the Bursary project, eliminating 8+ hours of weekly manual effort and reducing reporting errors to near zero.
+○ Executed complex MySQL schema migrations for the Golf project, improving query performance by 20% and measurably reducing page-load latency.
+○ Designed modular CRUD APIs with optimised indexing and cursor-based pagination, reliably supporting 100,000+ records without performance degradation.
+Stack: PHP, Laravel, Svelte, MySQL'''
             }
         ]
-
+ 
         self.stdout.write('Populating Experience...')
         for exp in experiences:
-            Experience.objects.get_or_create(
+            Experience.objects.update_or_create(
                 company=exp['company'],
                 role=exp['role'],
                 defaults={
@@ -95,24 +100,17 @@ Technologies: php, Laravel and Svelte'''
                     'description': exp['description']
                 }
             )
-            
-        # Projects Data
+             # Projects Data
         # We define base metadata here, and then enhance it with video paths if they exist
         projects_base = [
             {
-                'title': 'Jodhana Tourism',
-                'description': 'A tourism website for Jodhpur city featuring booking and information services.',
-                'tech_stack': 'Laravel PHP MySQL Bootstrap',
+                'title': 'Jodhana',
+                'description': 'Built a community platform using PHP/Laravel with role-based authentication, content workflows, and a fully normalised MySQL schema (12+ tables), achieving sub-100 ms query response times under load.\nResolved 15+ deployment issues and streamlined the onboarding process, reducing new-contributor environment-setup time by 50%.',
+                'tech_stack': 'PHP, Laravel, MySQL, HTML5, CSS3',
                 'github_url': 'https://github.com/ToshiJain15/jodhana',
                 'video_file': 'websites/Jodhana Trip Advisor.webm'
             },
-            {
-                'title': 'School Management System (Laravel)',
-                'description': 'Comprehensive school management system handling student data, attendance, and reporting. Featuring specialized portals for Admin, Teachers, and Students.',
-                'tech_stack': 'Laravel PHP MySQL',
-                'github_url': 'https://github.com/ToshiJain15/SchoolLaravel',
-                'video_file': None
-            },
+
             {
                 'title': 'Modern React Web App',
                 'description': 'A scalable and responsive web application built with React, focusing on component-based architecture.',
@@ -141,13 +139,7 @@ Technologies: php, Laravel and Svelte'''
                 'github_url': None,
                 'video_file': 'websites/React App.webm'
             },
-             {
-                'title': 'School Management (Core PHP)',
-                'description': 'Core PHP implementation of a school management system.',
-                'tech_stack': 'PHP MySQL HTML CSS',
-                'github_url': 'https://github.com/ToshiJain15/Schoolphpcore',
-                'video_file': None
-            },
+
             {
                 'title': 'Guru Chairs',
                 'description': 'A high-end, luxury furniture showcase website with elegant design and premium product displays.',
@@ -163,18 +155,18 @@ Technologies: php, Laravel and Svelte'''
                 'video_file': 'websites/Jain Masala _ Pure Indian Heritage.webm'
             },
             {
-                'title': 'Machine Learning Experiments',
-                'description': 'Collection of machine learning models and experiments.',
-                'tech_stack': 'Python Scikit-learn Pandas',
+                'title': 'Machine Learning Projects Collection',
+                'description': 'Built COVID-19 forecasting and house-price prediction models (Scikit-learn) achieving R2 > 0.85; developed an ad click-through classifier reaching 88% accuracy via gradient-boosting pipelines.',
+                'tech_stack': 'Python, Scikit-learn, Pandas, Matplotlib, Jupyter Notebook',
                 'github_url': 'https://github.com/ToshiJain15/machine_learning',
                 'live_demo_url': 'https://toshijain15.github.io/machine_learning/',
                 'image_file': 'projects/machine_learning.png',
                 'video_file': None
             },
             {
-                'title': 'OpenCV Computer Vision',
-                'description': 'Computer vision projects using OpenCV library.',
-                'tech_stack': 'Python OpenCV',
+                'title': 'OpenCV Computer Vision Suite',
+                'description': 'Implemented a real-time face-detection and social-distancing monitor in Python and OpenCV capable of processing live video at 25+ FPS; proximity-alert logic achieved 92% detection accuracy.',
+                'tech_stack': 'Python, OpenCV, NumPy, Jupyter Notebook',
                 'github_url': 'https://github.com/ToshiJain15/opencv',
                 'live_demo_url': 'https://toshijain15.github.io/opencv/',
                 'image_file': 'projects/opencv.png',
@@ -187,13 +179,13 @@ Technologies: php, Laravel and Svelte'''
                 'github_url': 'https://github.com/ToshiJain15/crossword',
                 'live_demo_url': 'https://toshijain15.github.io/crossword/lab/index.html',
                 'image_file': 'projects/crossword.png',
-                'video_file': None
+                'video_file': 'websites/crossword.webm'
             },
             {
-                'title': 'Desi Potato Post',
-                'description': 'A comprehensive news or blog aggregation platform with a localized focus.',
-                'tech_stack': 'Django Python HTML CSS',
-                'github_url': None,
+                'title': 'Potato Post',
+                'description': 'Delivered a full-featured Django social platform with authentication, posts, likes, and user profiles; optimised static-file serving to achieve a 30% reduction in page-load time.',
+                'tech_stack': 'Python, Django, SQLite, HTML5, CSS3',
+                'github_url': 'https://github.com/ToshiJain15/potato_post',
                 'video_file': 'websites/Home _ Desi Potato Post.webm'
             },
              {
@@ -210,7 +202,7 @@ Technologies: php, Laravel and Svelte'''
                 'github_url': None,
                 'video_file': 'websites/Vendor Management System.webm'
             },
-
+ 
              {
                 'title': 'Bimsu App',
                 'description': 'A web application for Bimsu services.',
